@@ -68,7 +68,7 @@ public:
         ERROR_CHECK( depthFrameDescription->get_Height( &depthHeight ) );
 
         depthPointX = depthWidth / 2;
-        depthPointY = depthHeight / 4;
+        depthPointY = depthHeight / 2;
 
         // Depthの最大値、最小値を取得する
         ERROR_CHECK( depthFrameSource->get_DepthMinReliableDistance( &minDepthReliableDistance ) );
@@ -108,7 +108,8 @@ public:
             update();
             draw();
 
-            auto key = cv::waitKey( 10 );
+            auto key = cv::waitKey( 100 );//fpsをここで変更
+
             if ( key == 'q' ){
                 break;
             }
@@ -164,6 +165,11 @@ private:
         cv::putText( depthImage, ss.str(), cv::Point( depthPointX, depthPointY ), 0, 1, cv::Scalar( 0, 255, 255 ) );
 
         cv::imshow( DepthWindowName, depthImage );
+		//for (){ここである範囲内の最も近い点を取得する処理
+
+		//}
+		std::cout << "距離 : " << depthBuffer[index] << std::endl;
+
     }
 };
 
