@@ -164,11 +164,15 @@ private:
         cv::circle( depthImage, cv::Point( depthPointX, depthPointY ), 10, cv::Scalar( 0, 0, 255 ), 2 );
         cv::putText( depthImage, ss.str(), cv::Point( depthPointX, depthPointY ), 0, 1, cv::Scalar( 0, 255, 255 ) );
 
-        cv::imshow( DepthWindowName, depthImage );
-		//for (){ここである範囲内の最も近い点を取得する処理
-
-		//}
-		std::cout << "距離 : " << depthBuffer[index] << std::endl;
+ 
+		cv::imshow( DepthWindowName, depthImage );
+		int hikaku=8000;
+		for (index = depthHeight*depthWidth/3; index < depthHeight*depthWidth*2/3; index++){
+			if (hikaku > depthBuffer[index] &&depthBuffer[index]!=0){
+				hikaku = depthBuffer[index];
+			}
+			}
+		std::cout << "距離 : " << hikaku << std::endl;
 
     }
 };
