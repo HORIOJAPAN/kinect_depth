@@ -161,18 +161,21 @@ private:
         std::stringstream ss;
         ss << depthBuffer[index] << "mm";
 
+	int min_depth = 8000;
+	for (index = depthHeight*depthWidth / 3; index < depthHeight*depthWidth * 2/3; index++){
+		if (min_depth > depthBuffer[index] && depthBuffer[index] != 0){
+			if(depthWidth/3 < index % depthWidth && index % depthWidth < depthWidth*2/3){
+				min_depth = depthBuffer[index];
+				depthPointX = index % depthWidth;
+				depthPointY = index / depthHeight;
+			}
+		}
+	}
+	std::cout << "距離 : " << min_depth << std::endl;
+	
         cv::circle( depthImage, cv::Point( depthPointX, depthPointY ), 10, cv::Scalar( 0, 0, 255 ), 2 );
         cv::putText( depthImage, ss.str(), cv::Point( depthPointX, depthPointY ), 0, 1, cv::Scalar( 0, 255, 255 ) );
-
- 
-		cv::imshow( DepthWindowName, depthImage );
-		int hikaku=8000;
-		for (index = depthHeight*depthWidth/3; index < depthHeight*depthWidth*2/3; index++){
-			if (hikaku > depthBuffer[index] &&depthBuffer[index]!=0){
-				hikaku = depthBuffer[index];
-			}
-			}
-		std::cout << "距離 : " << hikaku << std::endl;
+	cv::imshow( DepthWindowName, depthImage );
 
     }
 };
